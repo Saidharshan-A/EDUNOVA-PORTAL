@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  role         String   // TEACHER or STUDENT
+  avatar       String?
+  grade        String?
+  section      String?
+  rollNo       String?
+  department   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  attendance    Attendance[]
+  fees          Fee[]
+  assignments   StudentAssignment[]
+  notifications Notification[]
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  date      DateTime
+  status    String   // PRESENT, ABSENT, LATE, EXCUSED
+  subject   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, date])
+}
+
+model Fee {
+  id        String   @id @default(cuid())
+  title     String
+  amount    Float
+  dueDate   DateTime
+  status    String   // PAID, PENDING, OVERDUE
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Assignment {
+  id        String              @id @default(cuid())
+  subject   String
+  title     String
+  dueDate   DateTime
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  students  StudentAssignment[]
+}
+
+model StudentAssignment {
+  id           String    @id @default(cuid())
+  status       String    @default("PENDING") // PENDING, SUBMITTED, GRADED
+  grade        String?
+  submittedAt  DateTime?
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([userId, assignmentId])
+  @@index([userId])
+}
+
+model Exam {
+  id        String   @id @default(cuid())
+  subject   String
+  date      DateTime
+  time      String
+  room      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO, ALERT, SUCCESS
+  read      Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
