@@ -102,3 +102,13 @@ model Notification {
 
   @@index([userId])
 }
+
+model Class {
+  id        String   @id @default(cuid())
+  name      String
+  subject   String
+  schedule  String
+  room      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

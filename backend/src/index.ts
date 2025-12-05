@@ -8,6 +8,7 @@ import { feesRouter } from './routes/fees.js';
 import { assignmentsRouter } from './routes/assignments.js';
 import { examsRouter } from './routes/exams.js';
 import { notificationsRouter } from './routes/notifications.js';
+import { classesRouter } from './routes/classes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use('/api/fees', feesRouter);
 app.use('/api/assignments', assignmentsRouter);
 app.use('/api/exams', examsRouter);
 app.use('/api/notifications', notificationsRouter);
+app.use('/api/classes', classesRouter);
 
 // Root route
 app.get('/', (_, res) => {

@@ -154,8 +154,12 @@ export const Landing: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="flex flex-col sm:flex-row gap-4 items-center justify-center"
               >
-                <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 bg-primary border border-primary/10">
-                  <span>Start Free Trial</span>
+                <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 bg-primary border border-primary/10" onClick={() => navigate('/login/student')}>
+                  <span>Student Login</span>
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+                <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full" onClick={() => navigate('/login/teacher')}>
+                  <span>Teacher Login</span>
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </motion.div>

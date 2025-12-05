@@ -93,6 +93,10 @@ class ApiClient {
     return this.request<any>('/attendance/bulk', { method: 'POST', body: JSON.stringify(data) });
   }
 
+  async updateAttendance(id: string, status: string) {
+    return this.request<any>(`/attendance/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) });
+  }
+
   // Fees
   async getFees(userId?: string) {
     const query = userId ? `?userId=${userId}` : '';
@@ -160,6 +164,23 @@ class ApiClient {
 
   async markAllNotificationsRead() {
     return this.request<any>('/notifications/mark-all-read', { method: 'POST' });
+  }
+
+  // Classes
+  async getClasses() {
+    return this.request<any[]>('/classes');
+  }
+
+  async createClass(data: { name: string; subject: string; schedule: string; room: string }) {
+    return this.request<any>('/classes', { method: 'POST', body: JSON.stringify(data) });
+  }
+
+  async updateClass(id: string, data: any) {
+    return this.request<any>(`/classes/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  }
+
+  async deleteClass(id: string) {
+    return this.request<any>(`/classes/${id}`, { method: 'DELETE' });
   }
 }
 

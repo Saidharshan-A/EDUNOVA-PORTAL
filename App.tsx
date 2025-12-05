@@ -6,10 +6,24 @@ import { Landing } from './pages/Landing';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { Attendance } from './pages/Attendance';
+import { Fees } from './pages/Fees';
+import { Assignments } from './pages/Assignments';
+import { Timetable } from './pages/Timetable';
+import { Exams } from './pages/Exams';
+import { Profile } from './pages/Profile';
 
 // Protected Route Wrapper
 const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  
   return isAuthenticated ? (
     <Layout>
       <Outlet />
@@ -31,12 +45,11 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/attendance" element={<Attendance />} />
             
-            {/* Placeholders for other routes */}
-            <Route path="/fees" element={<Dashboard />} />
-            <Route path="/assignments" element={<Dashboard />} />
-            <Route path="/timetable" element={<Dashboard />} />
-            <Route path="/exams" element={<Dashboard />} />
-            <Route path="/profile" element={<Dashboard />} />
+            <Route path="/fees" element={<Fees />} />
+            <Route path="/assignments" element={<Assignments />} />
+            <Route path="/timetable" element={<Timetable />} />
+            <Route path="/exams" element={<Exams />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
